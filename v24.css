@@ -1,0 +1,119 @@
+/* ═══ «Дыхание» 2.4 для ПК: заставка, обучение, «О приложении», ползунки практики ═══ */
+
+/* Заставка: своего фона нет — под ней фон темы (Аврора) */
+.v24-splash { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 400; cursor: default; }
+
+/* Ползунки громкости в практике: слева голос, справа эффекты — по бокам цветка */
+.v24-rails { position: fixed; inset: 0; pointer-events: none; z-index: 60; opacity: 0; transition: opacity 0.6s ease; }
+.v24-rails.show { opacity: 1; transition: opacity 0.3s ease; }
+.v24-rail {
+  position: absolute; top: 50%; width: 46px; height: 180px; margin-top: -90px;
+  border-radius: 14px; border: 1px solid rgba(255,255,255,0.12); overflow: hidden;
+  pointer-events: none; touch-action: none; cursor: ns-resize;
+}
+.v24-rails.show .v24-rail { pointer-events: auto; }
+.v24-rail.left { left: max(14px, calc(50% - 130px * var(--ui-scale, 1) - 80px)); }
+.v24-rail.right { right: max(14px, calc(50% - 130px * var(--ui-scale, 1) - 80px)); }
+/* 2.5: своё аудио — справа, левее ползунка эффектов */
+/* 2.5: своё аудио — справа; 2.9: звук фаз — слева. Один на стороне — на месте основного, двое — друг над другом */
+.v24-rail.right2 { right: max(14px, calc(50% - 130px * var(--ui-scale, 1) - 80px)); }
+.v24-rail.left2 { left: max(14px, calc(50% - 130px * var(--ui-scale, 1) - 80px)); }
+.v24-rails.pairL .v24-rail.left, .v24-rails.pairR .v24-rail.right { height: 120px; margin-top: -128px; }
+.v24-rails.pairL .v24-rail.left2, .v24-rails.pairR .v24-rail.right2 { height: 120px; margin-top: 8px; }
+.v24-rail-fill { position: absolute; left: 0; right: 0; bottom: 0; height: 0; }
+.v24-rail-ic { position: absolute; left: 0; right: 0; bottom: 13px; display: flex; justify-content: center; color: #fff; }
+.v24-rail-ic .ic { width: 22px; height: 22px; }
+.v24-rail.drag { filter: brightness(1.15); }
+
+/* Обучение: затемнение с окошком вокруг элемента и карточка */
+.v24-tut { position: fixed; inset: 0; z-index: 300; opacity: 0; transition: opacity 0.4s ease; --tc: 0, 180, 160; }
+.v24-tut.show { opacity: 1; }
+.v24-tut.nohole { background: rgba(0,0,0,0.74); }
+.v24-tut-hole {
+  position: fixed; border-radius: 18px; pointer-events: none;
+  box-shadow: 0 0 0 200vmax rgba(0,0,0,0.74), 0 0 14px 2px rgba(var(--tc), 0.45);
+  border: 1.5px solid rgba(var(--tc), 0.9);
+  transition: left 0.38s cubic-bezier(0.4,0,0.2,1), top 0.38s cubic-bezier(0.4,0,0.2,1), width 0.38s cubic-bezier(0.4,0,0.2,1), height 0.38s cubic-bezier(0.4,0,0.2,1), opacity 0.3s ease;
+}
+.v24-tut.nohole .v24-tut-hole { box-shadow: none; border: 0; }
+.v24-tut-card {
+  position: fixed; left: 50%; width: min(340px, calc(100vw - 32px)); transform: translate(-50%, 10px); opacity: 0;
+  padding: 18px 20px 16px; border-radius: 22px; box-sizing: border-box;
+  background: linear-gradient(135deg, rgba(22,22,28,0.97), rgba(14,14,20,0.98));
+  border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 12px 30px rgba(0,0,0,0.5);
+  transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.16,1,0.3,1);
+}
+.v24-tut-card.in { opacity: 1; transform: translate(-50%, 0); }
+.v24-tut-head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.v24-tut-ic { color: rgba(255,255,255,0.9); display: flex; }
+.v24-tut-ic .ic { width: 22px; height: 22px; }
+.v24-tut-title { flex: 1; font-size: 17px; font-weight: 700; color: #fff; }
+.v24-tut-count { font-size: 12px; color: rgba(255,255,255,0.4); font-weight: 500; }
+.v24-tut-text { font-size: 14px; line-height: 1.45; color: rgba(255,255,255,0.78); white-space: pre-line; margin-bottom: 14px; }
+.v24-tut-check { display: flex; align-items: center; gap: 8px; font-size: 13px; color: rgba(255,255,255,0.55); margin-bottom: 12px; cursor: pointer; }
+.v24-tut-check input { accent-color: #2ecc71; }
+.v24-tut-actions { display: flex; gap: 10px; }
+.v24-tut-actions .app-dialog-btn { flex: 1; }
+
+/* «О приложении»: страница на фоне темы */
+.v24-about { position: fixed; inset: 0; z-index: 200; background: rgba(0,0,0,0.28); opacity: 0; visibility: hidden; transition: opacity 0.4s ease, visibility 0.4s; }
+.v24-about.show { opacity: 1; visibility: visible; }
+.v24-about-page {
+  position: absolute; inset: 0; overflow-y: auto; padding: 16px 22px 28px; box-sizing: border-box;
+  max-width: 520px; margin: 0 auto; transform: translateX(24px); transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
+}
+.v24-about.show .v24-about-page { transform: none; }
+.v24-about-back { background: none; border: 0; color: rgba(255,255,255,0.9); padding: 8px; margin-left: -8px; cursor: pointer; display: flex; }
+.v24-about-back .ic { width: 26px; height: 26px; }
+.v24-about h1 { font-size: 30px; font-weight: 800; color: #fff; margin: 14px 0 0; }
+.v24-about-center { text-align: center; margin-top: 40px; }
+.v24-about-logo { width: 104px; opacity: 0.92; margin-bottom: 18px; }
+.v24-about-name { font-size: 22px; font-weight: 700; color: #fff; }
+.v24-about-desc { font-size: 14px; line-height: 1.4; color: rgba(255,255,255,0.7); margin: 16px 0 24px; }
+.v24-about-link { display: block; font-size: 16px; color: rgba(255,255,255,0.92); padding: 10px 0; cursor: pointer; transition: opacity 0.2s; }
+.v24-about-link:hover { opacity: 0.7; }
+.v24-about-small { font-size: 13px; line-height: 1.4; color: rgba(255,255,255,0.45); margin: 24px 0 0; }
+.v24-about-small + .v24-about-small { margin-top: 14px; }
+
+/* Инструкция: «Пройти обучение» */
+.v24-ghost-btn { background: rgba(255,255,255,0.04) !important; color: rgba(255,255,255,0.8) !important; border: 1px solid rgba(255,255,255,0.14) !important; box-shadow: none !important; margin-top: 10px; }
+
+/* ═══ ПК 2.8: напоминание подышать ═══ */
+.v24-rem-link { grid-column: span 2; margin-top: 4px; background: rgba(255,255,255,0.03); border: 1px dashed rgba(255,255,255,0.14); color: rgba(255,255,255,0.7);
+  font: inherit; font-size: 12.5px; padding: 9px; border-radius: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px; }
+.v24-rem-link:hover { border-color: rgba(255,255,255,0.28); color: #fff; }
+.v24-rem-link .ic { width: 14px; height: 14px; }
+.v24-rem { position: fixed; inset: 0; z-index: 250; background: rgba(0,0,0,0.72); display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none; transition: opacity 0.3s ease; --tc: 0, 180, 160; padding: 20px; }
+.v24-rem.show { opacity: 1; pointer-events: auto; }
+.v24-rem-card { width: min(340px, 100%); box-sizing: border-box; padding: 22px 22px 20px; border-radius: 24px; border: 1px solid rgba(255,255,255,0.08);
+  background: linear-gradient(135deg, rgba(20,20,25,0.95), rgba(15,15,20,0.97)); transform: translateY(16px) scale(0.96); transition: transform 0.35s ease; }
+.v24-rem.show .v24-rem-card { transform: none; }
+.v24-rem-head { display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 17px; font-weight: 700; color: #fff; margin-bottom: 14px; }
+.v24-rem-head .ic { width: 22px; height: 22px; opacity: 0.85; }
+.v24-rem-text { margin: 0 0 14px; font-size: 13.5px; line-height: 1.4; color: rgba(255,255,255,0.75); white-space: pre-line; }
+.v24-rem-sw { --switch-on: rgb(var(--tc)); }
+.v24-rem-time { display: flex; align-items: center; padding: 8px 4px; cursor: pointer; border-radius: 10px; outline: none; transition: opacity 0.2s; }
+.v24-rem-time.off { opacity: 0.35; cursor: default; }
+.v24-rem-tl { flex: 1; display: flex; align-items: center; gap: 12px; font-size: 14px; color: rgba(255,255,255,0.9); }
+.v24-rem-tl .ic { width: 16px; height: 16px; }
+.v24-rem-val { font-size: 18px; color: rgb(var(--tc)); }
+.v24-rem-chev { margin-left: 10px; width: 16px; text-align: center; font-size: 12px; color: rgba(255,255,255,0.4); transition: transform 0.25s; }
+.v24-rem.drop .v24-rem-chev { transform: rotate(90deg); }
+.v24-rem-drop { display: none; margin-top: 6px; padding: 4px 0; border-radius: 16px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); }
+.v24-rem.drop .v24-rem-drop { display: block; }
+.v24-wheel { display: block; width: 100%; height: 200px; cursor: ns-resize; touch-action: none; }
+.v24-rem-ok { width: 100%; margin-top: 16px; }
+/* 2.8: «Слова голоса» — то же окно, строки-переключатели одна под другой */
+.v24-vw .v24-rem-sw { margin-bottom: 6px; }
+#v24-vw-link { margin-top: 0; }
+
+/* 2.9: зимние праздники — гирлянда по периметру окна и переключатели снега/гирлянды над меню */
+.v24-garland { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 6; }
+.v24-holiday { display: flex; align-items: center; justify-content: space-between; margin: -4px 0 6px; }
+.v24-hb { width: 44px; height: 40px; border: 0; background: none; padding: 0; cursor: pointer; display: flex; align-items: center; justify-content: center;
+  color: rgba(255,255,255,0.3); transition: color 0.3s ease, filter 0.3s ease, transform 0.15s ease; }
+.v24-hb .ic { width: 24px; height: 24px; }
+.v24-hb:active { transform: scale(0.94); }
+.v24-hb.snow.on { color: rgb(218, 238, 255); filter: drop-shadow(0 0 5px rgba(170, 215, 255, 0.85)); }
+.v24-hb.bulb.on { color: rgb(255, 228, 175); filter: drop-shadow(0 0 5px rgba(255, 200, 90, 0.85)); }
